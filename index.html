@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PokeMonstruo — Tienda Pokémon personalizada</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <div class="brand">
+        <img src="logo.jpeg" alt="pokemonstruo" class="logo-img" />
+      </div>
+      <nav class="nav">
+        <a href="#features">Características</a>
+        <a href="#sections">Secciones</a>
+        <a href="#tech">Tecnologías</a>
+        <a href="#contact">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO: logo top-left (in header) + centered content -->
+    <section class="hero">
+      <div class="container hero-content">
+        <h1 class="hero-title">PokeMonstruo</h1>
+        <p class="hero-sub">La experiencia online para coleccionistas y jugadores — más personalizable que Shopify.</p>
+        <div class="cta-row">
+          <button id="demoBtn" class="btn primary">Ver productos</button>
+          <a href="#contact" class="btn ghost">Contáctanos</a>
+        </div>
+        <div class="hero-features">
+          <div class="hf-card">
+            <strong>Sellados</strong>
+            <span>Cajas, sobres y bundles</span>
+          </div>
+          <div class="hf-card">
+            <strong>Singles</strong>
+            <span>Búsqueda por rareza y wishlist</span>
+          </div>
+          <div class="hf-card">
+            <strong>Vendedores</strong>
+            <span>Mini-mapa con puntos verificados</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OBJETIVOS -->
+    <section id="features" class="section dark-surface">
+      <div class="container">
+        <h2>Objetivos principales</h2>
+        <div class="grid-3">
+          <article class="card">
+            <h4>Frontend moderno</h4>
+            <p>SPA en Angular: componentes reutilizables, rendimiento y diseño responsivo.</p>
+          </article>
+          <article class="card">
+            <h4>Integración con Shopify</h4>
+            <p>Sincronización de productos, inventario y flujo de pagos.</p>
+          </article>
+          <article class="card">
+            <h4>Autenticación</h4>
+            <p>Registro/login con JWT y descuento en la primera compra.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIONES PRINCIPALES -->
+    <section id="sections" class="section mid-surface">
+      <div class="container">
+        <h2>Páginas principales</h2>
+        <div class="list cards-grid">
+          <div class="info-card">
+            <h4>Landing</h4>
+            <p>Destacados y carrusel con promociones desde Shopify.</p>
+          </div>
+          <div class="info-card">
+            <h4>Productos Sellados</h4>
+            <p>Filtros por marca, expansión y precio.</p>
+          </div>
+          <div class="info-card">
+            <h4>Cartas Singles</h4>
+            <p>Búsqueda avanzada, wishlist y disponibilidad.</p>
+          </div>
+          <div class="info-card">
+            <h4>Vendedores Autorizados</h4>
+            <p>Mapa con marcadores y datos de confianza.</p>
+          </div>
+          <div class="info-card">
+            <h4>Contacto</h4>
+            <p>Soporte, sugerencias y reportes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARQUITECTURA -->
+    <section id="arch" class="section dark-surface">
+      <div class="container arch">
+        <div class="arch-column">
+          <h3>Arquitectura general</h3>
+          <p>Frontend (Angular) → REST API (Node.js + Express) → MongoDB → Integraciones (Shopify, Google Maps)</p>
+        </div>
+        <div class="arch-diagram" aria-hidden="true">
+          <div class="node">Angular</div>
+          <div class="arrow">→</div>
+          <div class="node">Node + Express</div>
+          <div class="arrow">→</div>
+          <div class="node">MongoDB</div>
+          <div class="arrow">→</div>
+          <div class="node">Shopify / Maps</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECNOLOGÍAS -->
+    <section id="tech" class="section mid-surface">
+      <div class="container">
+        <h2>Tecnologías</h2>
+        <ul class="tech-list">
+          <li>Angular (SPA)</li>
+          <li>TailwindCSS / CSS puro</li>
+          <li>Node.js + Express</li>
+          <li>MongoDB</li>
+          <li>Shopify Storefront API & Google Maps API</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contact" class="section contact-surface">
+      <div class="container contact-wrap">
+        <div class="contact-left">
+          <h2>Contacto</h2>
+          <p>¿Interesado en la integración o una demo? Envíanos un mensaje y te respondemos pronto.</p>
+          <div class="contact-cta">
+            <button id="demoBtn2" class="btn primary">Solicitar demo</button>
+            <a href="#features" class="btn ghost">Explorar objetivos</a>
+          </div>
+        </div>
+        <div class="contact-form">
+          <form id="contactForm">
+            <label class="sr-only" for="email">Correo</label>
+            <input id="email" type="email" name="email" placeholder="Tu correo" required />
+            <label class="sr-only" for="message">Mensaje</label>
+            <textarea id="message" name="message" placeholder="¿En qué podemos ayudarte?" required></textarea>
+            <button type="submit" class="btn primary">Enviar</button>
+            <p class="muted">También podemos integrar backend para envío de correos y autenticación.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© PokeMonstruo — Propuesta de tienda personalizada</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
