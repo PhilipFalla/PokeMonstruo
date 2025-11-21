@@ -45,4 +45,13 @@ app.get('/api/products', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
+app.get('/', (req, res) => {
+  console.log('Health check hit /');
+  res.send('OK');
+});
+
+app.get('/api/products', (req, res) => {
+  console.log('GET /api/products');
+  res.json(mockProducts);
+});
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
