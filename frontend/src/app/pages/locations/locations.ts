@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HeaderNav } from '../../shared/header-nav/header-nav';
 import { Footer } from '../../shared/footer/footer';
 import * as L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 
 @Component({
   selector: 'app-locations',
