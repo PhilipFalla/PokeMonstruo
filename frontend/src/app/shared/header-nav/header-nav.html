@@ -11,7 +11,9 @@
 
     <!-- Center: logo -->
     <div class="w-1/3 flex justify-center">
-      <img src="assets/logo.avif" class="h-14 mb-4" />
+      <a routerLink="/">
+        <img src="assets/logo.avif" class="h-20 mb-4 cursor-pointer" />
+      </a>
     </div>
 
     <!-- Right side: login + cart -->
@@ -28,11 +30,21 @@
   <!-- NAVBAR -->
   <nav class="bg-black border-t border-gray-700">
     <ul class="max-w-container mx-auto flex justify-center gap-10 py-3 text-white font-medium">
-      <li class="hover:text-accent cursor-pointer">Inicio</li>
-      <li class="hover:text-accent cursor-pointer">Producto Sellado</li>
-      <li class="hover:text-accent cursor-pointer">Sobres Sueltos</li>
-      <li class="hover:text-accent cursor-pointer">Singles</li>
-      <li class="hover:text-accent cursor-pointer">Accesorios</li>
+      <li>
+        <a routerLink="/" class="hover:text-accent transition-colors">Inicio</a>
+      </li>
+      <li>
+        <a routerLink="/productos/sellados" class="hover:text-accent transition-colors">Producto Sellado</a>
+      </li>
+      <li>
+        <a routerLink="/productos/sobres" class="hover:text-accent transition-colors">Sobres Sueltos</a>
+      </li>
+      <li>
+        <a routerLink="/productos/singles" class="hover:text-accent transition-colors">Singles</a>
+      </li>
+      <li>
+        <a routerLink="/productos/accesorios" class="hover:text-accent transition-colors">Accesorios</a>
+      </li>
     </ul>
   </nav>
 </header>
