@@ -1,0 +1,36 @@
+<header class="w-full bg-white shadow-md">
+  <!-- Top Bar -->
+  <div class="flex items-center justify-between px-6 py-3">
+    
+    <!-- Search -->
+    <div class="flex-1">
+      <input 
+        type="text"
+        placeholder="Buscar productos..."
+        class="w-full max-w-md px-4 py-2 border rounded-xl"
+      />
+    </div>
+
+    <!-- Logo (centered using absolute positioning) -->
+    <div class="absolute left-1/2 transform -translate-x-1/2">
+      <img src="assets/logo.png" alt="PokeMonstruo" class="h-16" />
+    </div>
+
+    <!-- User + Cart -->
+    <div class="flex items-center gap-4">
+      <button class="text-lg hover:text-blue-600">Login</button>
+      <button class="text-lg hover:text-blue-600">🛒</button>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="bg-gray-100 border-t border-b">
+    <ul class="flex justify-center gap-8 py-3 font-semibold">
+      <li><a href="#" class="hover:text-blue-600">Inicio</a></li>
+      <li><a href="#" class="hover:text-blue-600">Producto Sellado</a></li>
+      <li><a href="#" class="hover:text-blue-600">Sobres Sueltos</a></li>
+      <li><a href="#" class="hover:text-blue-600">Singles</a></li>
+      <li><a href="#" class="hover:text-blue-600">Accesorios</a></li>
+    </ul>
+  </nav>
+</header>

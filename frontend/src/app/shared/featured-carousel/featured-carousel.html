@@ -1,0 +1,12 @@
+<section class="px-6 my-6">
+  <h2 class="text-2xl font-bold mb-4">Productos Destacados</h2>
+
+  <div class="flex gap-4 overflow-x-auto pb-4">
+    <div *ngFor="let item of items"
+         class="min-w-[200px] bg-white rounded-xl shadow p-4">
+      <img [src]="item.image" alt="" class="h-40 w-full object-cover rounded" />
+      <h3 class="font-semibold mt-3">{{ item.name }}</h3>
+      <p class="text-blue-600 font-bold">${{ item.price }}</p>
+    </div>
+  </div>
+</section>
