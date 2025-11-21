@@ -1,5 +1,4 @@
-// src/app/pages/product/product.ts
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { HeaderNav } from '../../shared/header-nav/header-nav';
 import { FeaturedCarousel } from '../../shared/featured-carousel/featured-carousel';
@@ -9,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-product',
@@ -17,12 +17,13 @@ import { take } from 'rxjs/operators';
   templateUrl: './product.html',
   styleUrl: './product.css'
 })
-export class ProductComponent {
+export class ProductComponent implements OnInit {
   productId!: string;
   qty = 1;
   isLoggedIn$: Observable<boolean>;
 
   product = {
+    productId: '',
     name: '',
     description: '',
     price: 0,
@@ -30,10 +31,14 @@ export class ProductComponent {
     language: '',
   };
 
+  // Hardcoded user for now
+  userId = '69205dee72f65322c5f48d3f';
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private http: HttpClient
   ) {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
   }
@@ -41,8 +46,9 @@ export class ProductComponent {
   ngOnInit() {
     this.productId = this.route.snapshot.params['id'];
 
-    // TODO: Replace with a service call to fetch the product
+    // TODO: Replace with real product fetch
     this.product = {
+      productId: this.productId,
       name: `Producto ${this.productId}`,
       description: 'This is a detailed description of the product.',
       price: 99.00,
@@ -53,13 +59,29 @@ export class ProductComponent {
 
   addToCart() {
     this.authService.isLoggedIn$.pipe(take(1)).subscribe(loggedIn => {
-      if (loggedIn) {
-        console.log(`Added ${this.qty} of ${this.product.name} to cart`);
-        alert(`Added ${this.qty} of "${this.product.name}" to your cart!`);
-        // TODO: implement cart logic
-      } else {
+      if (!loggedIn) {
         this.router.navigate(['/auth']);
+        return;
       }
+
+      const payload = {
+        productId: this.product.productId,
+        name: this.product.name,
+        price: this.product.price,
+        image: this.product.image,
+        quantity: this.qty
+      };
+
+      this.http.post(`http://localhost:3000/api/cart/${this.userId}/add`, payload)
+        .subscribe({
+          next: () => {
+            alert(`Added ${this.qty} of "${this.product.name}" to your cart!`);
+          },
+          error: (err) => {
+            console.error('Failed to add to cart', err);
+            alert('Error adding item to cart.');
+          }
+        });
     });
   }
 }

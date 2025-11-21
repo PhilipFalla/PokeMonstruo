@@ -1,9 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { HeaderNav } from '../../shared/header-nav/header-nav';
 import { Footer } from '../../shared/footer/footer';
 import { CommonModule } from '@angular/common';
+
+interface CartItem {
+  productId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
 
 @Component({
   selector: 'app-checkout',
@@ -12,7 +21,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './checkout.html',
   styleUrls: ['./checkout.css']
 })
-export class CheckoutComponent {
+export class CheckoutComponent implements OnInit {
   // Shipping info
   name = '';
   phone = '';
@@ -25,19 +34,59 @@ export class CheckoutComponent {
   expiryDate = '';
   cvv = '';
 
-  constructor(private router: Router) {}
+  userId = '69205dee72f65322c5f48d3f'; // hardcoded user
+
+  cartItems: CartItem[] = [];
+
+  constructor(private router: Router, private http: HttpClient) {}
+
+  ngOnInit() {
+    // Load cart items from backend
+    this.http.get<{ items: CartItem[] }>(`http://localhost:3000/api/cart/${this.userId}`)
+      .subscribe(res => {
+        this.cartItems = res.items || [];
+      });
+  }
+
+  getTotal(): number {
+    return this.cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  }
 
   pay() {
     // Simple validation
     if (!this.name || !this.phone || !this.address || !this.cardNumber || !this.cardHolder || !this.expiryDate || !this.cvv) {
-      alert('Please fill out all fields before proceeding.');
+      alert('Por favor completa todos los campos antes de continuar.');
       return;
     }
 
-    // Simulate payment
-    alert(`Payment processed successfully! Thank you, ${this.name}.`);
+    // Create order object
+    const order = {
+      userId: this.userId,
+      items: this.cartItems,
+      shipping: {
+        recipientName: this.name,
+        phone: this.phone,
+        address: this.address,
+        instructions: this.instructions
+      },
+      payment: {
+        cardHolder: this.cardHolder,
+        cardNumber: this.cardNumber,
+        expiryDate: this.expiryDate,
+        cvv: this.cvv
+      }
+    };
 
-    // Redirect to home
-    this.router.navigate(['/']);
+    // Save order to backend
+    this.http.post('http://localhost:3000/api/orders/create', order).subscribe({
+      next: () => {
+        alert(`Pago procesado correctamente! Gracias, ${this.name}.`);
+        this.router.navigate(['/']);
+      },
+      error: err => {
+        console.error('Failed to create order', err);
+        alert('Hubo un error al procesar tu pago.');
+      }
+    });
   }
 }
