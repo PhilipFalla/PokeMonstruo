@@ -24,17 +24,17 @@ mongoose.connect(process.env.MONGO_URI)
 // Mock products
 const mockProducts = [
   {
-    id: 'prod_1',
-    title: 'Producto 1',
-    description: 'Descripción del producto 1',
-    image: '/assets/product-placeholder.avif',
+    id: '1',
+    title: 'Charizard UPC',
+    description: 'Varios sobres, accesorios y más',
+    image: '/chari.webp',
     price: 50
   },
   {
-    id: 'prod_2',
-    title: 'Producto 2',
-    description: 'Descripción del producto 2',
-    image: '/assets/product-placeholder.avif',
+    id: '2',
+    title: 'Pikachu ETB',
+    description: 'Dados para jugar, carta promocional y 9 sobres de mejora',
+    image: '/pikachu.webp',
     price: 75
   },
   // Add more as needed

@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Shopify } from '../../services/shopify';
 
 @Component({
   selector: 'app-product',
@@ -38,7 +39,8 @@ export class ProductComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private shopify: Shopify
   ) {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
   }
@@ -46,15 +48,30 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     this.productId = this.route.snapshot.params['id'];
 
-    // TODO: Replace with real product fetch
-    this.product = {
-      productId: this.productId,
-      name: `Producto ${this.productId}`,
-      description: 'This is a detailed description of the product.',
-      price: 99.00,
-      image: '/assets/product-placeholder.avif',
-      language: 'English'
-    };
+    this.shopify.getProducts().subscribe({
+      next: (products: any[]) => {
+        const p = products.find(prod => prod.id === this.productId);
+
+        if (!p) {
+          console.error('Product not found for id', this.productId);
+          this.router.navigate(['/']); // or show an error page
+          return;
+        }
+
+        this.product = {
+          productId: p.id,
+          name: p.title,            // backend uses "title"
+          description: p.description,
+          price: p.price,
+          image: p.image,           // this should be your real image path
+          language: 'English'       // or any field you want
+        };
+      },
+      error: err => {
+        console.error('Failed to load products', err);
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   addToCart() {
