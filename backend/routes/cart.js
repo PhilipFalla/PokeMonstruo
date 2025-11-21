@@ -21,7 +21,12 @@ router.post('/:userId/add', async (req, res) => {
 
     const index = cart.items.findIndex(item => item.productId === productId);
     if (index > -1) {
-      cart.items[index].quantity += quantity;
+      // Replace existing quantity with the new one instead of incrementing
+      cart.items[index].quantity = quantity;
+      // Optionally update other fields in case they changed
+      cart.items[index].name = name;
+      cart.items[index].price = price;
+      cart.items[index].image = image;
     } else {
       cart.items.push({ productId, name, price, image, quantity });
     }

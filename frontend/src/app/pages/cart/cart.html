@@ -16,7 +16,7 @@
           <p class="text-red-600 font-bold">Q{{item.price}}</p>
         </div>
 
-        <!-- Quantity -->
+        <!-- Quantity + Delete -->
         <div class="flex items-center gap-2">
           <input
             type="number"
@@ -25,6 +25,12 @@
             min="1"
             class="w-16 border rounded px-2 py-1"
           />
+          <button
+            (click)="removeItem(item)"
+            class="text-red-600 hover:text-red-800 font-bold"
+          >
+            Eliminar
+          </button>
         </div>
 
         <!-- Subtotal -->
