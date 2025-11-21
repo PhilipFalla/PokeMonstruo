@@ -1,0 +1,55 @@
+<app-header-nav></app-header-nav>
+
+<div class="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
+  <div class="max-w-md w-full bg-white shadow-md rounded-xl p-8">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">
+      {{ isLoginMode ? 'Iniciar sesión' : 'Crear cuenta' }}
+    </h2>
+
+    <form (ngSubmit)="onSubmit()" class="space-y-4">
+      <input
+        type="email"
+        placeholder="Email"
+        [(ngModel)]="email"
+        name="email"
+        required
+        class="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+      />
+
+      <input
+        type="password"
+        placeholder="Contraseña"
+        [(ngModel)]="password"
+        name="password"
+        required
+        class="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+      />
+
+      <input
+        *ngIf="!isLoginMode"
+        type="password"
+        placeholder="Confirmar contraseña"
+        [(ngModel)]="confirmPassword"
+        name="confirmPassword"
+        required
+        class="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+      />
+
+    <button
+      type="submit"
+      class="w-full bg-red-500 text-white py-2 rounded-lg font-semibold hover:bg-red-700 transition"
+    >
+      {{ isLoginMode ? 'Iniciar sesión' : 'Registrarse' }}
+    </button>
+    </form>
+
+    <p class="mt-4 text-center text-gray-600">
+      {{ isLoginMode ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?' }}
+      <button (click)="switchMode()" class="text-accent font-semibold hover:underline ml-1">
+        {{ isLoginMode ? 'Registrarse' : 'Iniciar sesión' }}
+      </button>
+    </p>
+  </div>
+</div>
+
+<app-footer></app-footer>
