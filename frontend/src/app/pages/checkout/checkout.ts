@@ -1,10 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { HeaderNav } from '../../shared/header-nav/header-nav';
 import { Footer } from '../../shared/footer/footer';
 import { CommonModule } from '@angular/common';
+
+interface CartItem {
+  productId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
 
 @Component({
   selector: 'app-checkout',
@@ -13,7 +21,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './checkout.html',
   styleUrls: ['./checkout.css']
 })
-export class CheckoutComponent {
+export class CheckoutComponent implements OnInit {
   // Shipping info
   name = '';
   phone = '';
@@ -26,9 +34,23 @@ export class CheckoutComponent {
   expiryDate = '';
   cvv = '';
 
-  userId = 'replace-with-logged-in-user-id'; // from auth
+  userId = '69205dee72f65322c5f48d3f'; // hardcoded user
+
+  cartItems: CartItem[] = [];
 
   constructor(private router: Router, private http: HttpClient) {}
+
+  ngOnInit() {
+    // Load cart items from backend
+    this.http.get<{ items: CartItem[] }>(`http://localhost:3000/api/cart/${this.userId}`)
+      .subscribe(res => {
+        this.cartItems = res.items || [];
+      });
+  }
+
+  getTotal(): number {
+    return this.cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  }
 
   pay() {
     // Simple validation
@@ -40,7 +62,7 @@ export class CheckoutComponent {
     // Create order object
     const order = {
       userId: this.userId,
-      items: [], // ideally you fetch items from cart API
+      items: this.cartItems,
       shipping: {
         recipientName: this.name,
         phone: this.phone,
@@ -56,7 +78,7 @@ export class CheckoutComponent {
     };
 
     // Save order to backend
-    this.http.post(`/api/orders/create`, order).subscribe({
+    this.http.post('http://localhost:3000/api/orders/create', order).subscribe({
       next: () => {
         alert(`Pago procesado correctamente! Gracias, ${this.name}.`);
         this.router.navigate(['/']);
