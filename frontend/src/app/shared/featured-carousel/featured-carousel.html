@@ -1,0 +1,15 @@
+<div class="max-w-container mx-auto mt-10 px-4">
+  <h2 class="text-2xl font-semibold text-bgDark mb-5">Productos Destacados</h2>
+
+  <div class="flex gap-6 overflow-x-auto scrollbar-hide pb-4">
+    <div
+      *ngFor="let item of items"
+      class="min-w-[200px] bg-white rounded-card shadow hover:shadow-lg transition p-4 border border-gray-200 cursor-pointer"
+      [routerLink]="['/producto', item.id]"
+    >
+      <img [src]="item.image" class="w-full h-40 object-cover rounded-md" />
+      <h3 class="font-medium text-bgDark mt-3">{{ item.name }}</h3>
+      <p class="text-accent font-bold mt-1">Q{{ item.price }}</p>
+    </div>
+  </div>
+</div>
