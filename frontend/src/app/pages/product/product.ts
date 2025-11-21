@@ -1,11 +1,14 @@
 // src/app/pages/product/product.ts
 import { Component } from '@angular/core';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { HeaderNav } from '../../shared/header-nav/header-nav';
 import { FeaturedCarousel } from '../../shared/featured-carousel/featured-carousel';
 import { Footer } from '../../shared/footer/footer';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product',
@@ -17,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 export class ProductComponent {
   productId!: string;
   qty = 1;
+  isLoggedIn$: Observable<boolean>;
 
   product = {
     name: '',
@@ -26,7 +30,13 @@ export class ProductComponent {
     language: '',
   };
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService
+  ) {
+    this.isLoggedIn$ = this.authService.isLoggedIn$;
+  }
 
   ngOnInit() {
     this.productId = this.route.snapshot.params['id'];
@@ -42,10 +52,14 @@ export class ProductComponent {
   }
 
   addToCart() {
-    if (this.qty < 1) {
-      alert('Please select a valid quantity');
-      return;
-    }
-    console.log(`Added ${this.qty} of ${this.product.name} to cart`);
+    this.authService.isLoggedIn$.pipe(take(1)).subscribe(loggedIn => {
+      if (loggedIn) {
+        console.log(`Added ${this.qty} of ${this.product.name} to cart`);
+        alert(`Added ${this.qty} of "${this.product.name}" to your cart!`);
+        // TODO: implement cart logic
+      } else {
+        this.router.navigate(['/auth']);
+      }
+    });
   }
 }

@@ -1,0 +1,44 @@
+<app-header-nav></app-header-nav>
+
+<div class="max-w-container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6 text-gray-800">Finalizar Compra</h1>
+
+  <!-- Información de Envío -->
+  <div class="bg-white shadow rounded-lg p-6 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Información de Envío</h2>
+    <div class="grid gap-4">
+      <input type="text" placeholder="Nombre de quien recibe" [(ngModel)]="name"
+             class="w-full border px-4 py-2 rounded-lg"/>
+      <input type="tel" placeholder="Número de teléfono" [(ngModel)]="phone"
+             class="w-full border px-4 py-2 rounded-lg"/>
+      <input type="text" placeholder="Dirección" [(ngModel)]="address"
+             class="w-full border px-4 py-2 rounded-lg"/>
+      <textarea placeholder="Instrucciones especiales" [(ngModel)]="instructions"
+                class="w-full border px-4 py-2 rounded-lg"></textarea>
+    </div>
+  </div>
+
+  <!-- Información de Pago -->
+  <div class="bg-white shadow rounded-lg p-6 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Información de Pago</h2>
+    <div class="grid gap-4">
+      <input type="text" placeholder="Número de tarjeta" [(ngModel)]="cardNumber"
+             class="w-full border px-4 py-2 rounded-lg"/>
+      <input type="text" placeholder="Nombre del titular" [(ngModel)]="cardHolder"
+             class="w-full border px-4 py-2 rounded-lg"/>
+      <div class="grid grid-cols-2 gap-4">
+        <input type="text" placeholder="Fecha de expiración (MM/AA)" [(ngModel)]="expiryDate"
+               class="w-full border px-4 py-2 rounded-lg"/>
+        <input type="text" placeholder="CVV" [(ngModel)]="cvv"
+               class="w-full border px-4 py-2 rounded-lg"/>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="pay()"
+          class="bg-red-500 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition">
+    Pagar
+  </button>
+</div>
+
+<app-footer></app-footer>
