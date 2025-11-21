@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { BACKEND_URL } from '../../app.config';
 
 @Component({
   selector: 'app-product',
@@ -72,7 +73,7 @@ export class ProductComponent implements OnInit {
         quantity: this.qty
       };
 
-      this.http.post(`http://localhost:3000/api/cart/${this.userId}/add`, payload)
+      this.http.post(`${BACKEND_URL}/api/cart/${this.userId}/add`, payload)
         .subscribe({
           next: () => {
             alert(`Added ${this.qty} of "${this.product.name}" to your cart!`);

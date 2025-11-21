@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { HeaderNav } from '../../shared/header-nav/header-nav';
 import { Footer } from '../../shared/footer/footer';
 import { CommonModule } from '@angular/common';
+import { BACKEND_URL } from '../../app.config';
 
 interface CartItem {
   productId: string;
@@ -42,7 +43,7 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit() {
     // Load cart items from backend
-    this.http.get<{ items: CartItem[] }>(`http://localhost:3000/api/cart/${this.userId}`)
+    this.http.get<{ items: CartItem[] }>(`${BACKEND_URL}/api/cart/${this.userId}`)
       .subscribe(res => {
         this.cartItems = res.items || [];
       });
@@ -78,7 +79,7 @@ export class CheckoutComponent implements OnInit {
     };
 
     // Save order to backend
-    this.http.post('http://localhost:3000/api/orders/create', order).subscribe({
+    this.http.post(`${BACKEND_URL}/api/orders/create`, order).subscribe({
       next: () => {
         alert(`Pago procesado correctamente! Gracias, ${this.name}.`);
         this.router.navigate(['/']);

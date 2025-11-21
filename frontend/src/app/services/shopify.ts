@@ -2,10 +2,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { BACKEND_URL } from '../app.config';
 
 @Injectable({ providedIn: 'root' })
 export class Shopify {
-  private apiUrl = 'http://localhost:3000/api/products';
+  private apiUrl = `${BACKEND_URL}/api/products`;
 
   constructor(private http: HttpClient) {}
 

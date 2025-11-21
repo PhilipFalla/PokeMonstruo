@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { HeaderNav } from '../../shared/header-nav/header-nav';
 import { Footer } from '../../shared/footer/footer';
 import { FormsModule } from '@angular/forms';
+import { BACKEND_URL } from '../../app.config';
 
 interface CartItem {
   productId: string;
@@ -33,14 +34,14 @@ export class CartComponent implements OnInit {
   }
 
   loadCart() {
-    this.http.get<any>(`http://localhost:3000/api/cart/${this.userId}`)
+    this.http.get<any>(`${BACKEND_URL}/api/cart/${this.userId}`)
       .subscribe(res => {
         this.cartItems = res.items || [];
       });
   }
 
   removeItem(item: CartItem) {
-    this.http.post(`http://localhost:3000/api/cart/${this.userId}/remove`, { productId: item.productId })
+    this.http.post(`${BACKEND_URL}/api/cart/${this.userId}/remove`, { productId: item.productId })
       .subscribe(() => {
         this.cartItems = this.cartItems.filter(i => i.productId !== item.productId);
       });
@@ -51,7 +52,7 @@ export class CartComponent implements OnInit {
     item.quantity = qty;
 
     // Optional: sync with backend
-    this.http.post(`http://localhost:3000/api/cart/${this.userId}/add`, {
+    this.http.post(`${BACKEND_URL}/api/cart/${this.userId}/add`, {
       productId: item.productId,
       name: item.name,
       price: item.price,
