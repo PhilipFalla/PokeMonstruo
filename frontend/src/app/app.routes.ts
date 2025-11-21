@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { Home } from './home/home';
 import { AuthComponent } from './pages/auth/auth';
-import { CheckoutComponent } from './pages/checkout/checkout';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -25,5 +24,10 @@ export const routes: Routes = [
     path: 'checkout',
     loadComponent: () =>
       import('./pages/checkout/checkout').then(m => m.CheckoutComponent)
+  },
+  {
+    path: 'locations',
+    loadComponent: () =>
+      import('./pages/locations/locations').then(m => m.LocationsComponent)
   }
 ];
