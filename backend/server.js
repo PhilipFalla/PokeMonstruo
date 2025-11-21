@@ -1,39 +1,48 @@
-require('dotenv').config();
+// server.js (simplified)
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-// Route imports
 const userRoutes = require('./routes/user');
 const cartRoutes = require('./routes/cart');
 const orderRoutes = require('./routes/order');
-const productRoutes = require('./routes/products');
 
 const app = express();
-
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
 app.use('/api/users', userRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
-app.use('/api/products', productRoutes);
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI, { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-})
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Connected to MongoDB!'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+// Mock products
+const mockProducts = [
+  {
+    id: 'prod_1',
+    title: 'Producto 1',
+    description: 'Descripción del producto 1',
+    image: '/assets/product-placeholder.avif',
+    price: 50
+  },
+  {
+    id: 'prod_2',
+    title: 'Producto 2',
+    description: 'Descripción del producto 2',
+    image: '/assets/product-placeholder.avif',
+    price: 75
+  },
+  // Add more as needed
+];
+
+app.get('/api/products', (req, res) => {
+  res.json(mockProducts);
 });
 
-// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));

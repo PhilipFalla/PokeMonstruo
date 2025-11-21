@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { HeaderNav } from '../../shared/header-nav/header-nav';
 import { Footer } from '../../shared/footer/footer';
 import { CommonModule } from '@angular/common';
@@ -25,19 +26,45 @@ export class CheckoutComponent {
   expiryDate = '';
   cvv = '';
 
-  constructor(private router: Router) {}
+  userId = 'replace-with-logged-in-user-id'; // from auth
+
+  constructor(private router: Router, private http: HttpClient) {}
 
   pay() {
     // Simple validation
     if (!this.name || !this.phone || !this.address || !this.cardNumber || !this.cardHolder || !this.expiryDate || !this.cvv) {
-      alert('Please fill out all fields before proceeding.');
+      alert('Por favor completa todos los campos antes de continuar.');
       return;
     }
 
-    // Simulate payment
-    alert(`Payment processed successfully! Thank you, ${this.name}.`);
+    // Create order object
+    const order = {
+      userId: this.userId,
+      items: [], // ideally you fetch items from cart API
+      shipping: {
+        recipientName: this.name,
+        phone: this.phone,
+        address: this.address,
+        instructions: this.instructions
+      },
+      payment: {
+        cardHolder: this.cardHolder,
+        cardNumber: this.cardNumber,
+        expiryDate: this.expiryDate,
+        cvv: this.cvv
+      }
+    };
 
-    // Redirect to home
-    this.router.navigate(['/']);
+    // Save order to backend
+    this.http.post(`/api/orders/create`, order).subscribe({
+      next: () => {
+        alert(`Pago procesado correctamente! Gracias, ${this.name}.`);
+        this.router.navigate(['/']);
+      },
+      error: err => {
+        console.error('Failed to create order', err);
+        alert('Hubo un error al procesar tu pago.');
+      }
+    });
   }
 }

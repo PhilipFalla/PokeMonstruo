@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { HeaderNav } from '../../shared/header-nav/header-nav';
 import { Footer } from '../../shared/footer/footer';
+import { Shopify } from '../../services/shopify';
 
 @Component({
   selector: 'app-products-list',
@@ -15,22 +16,24 @@ import { Footer } from '../../shared/footer/footer';
 export class ProductsListComponent implements OnInit {
   category = '';
   title = 'Productos';
-  products = [
-    { id: 1, name: 'Producto 1', price: 99.0, image: '/assets/product1.avif' },
-    { id: 2, name: 'Producto 2', price: 120.0, image: '/assets/product2.avif' },
-    { id: 3, name: 'Producto 3', price: 75.0, image: '/assets/product3.avif' },
-    { id: 4, name: 'Producto 4', price: 200.0, image: '/assets/product4.avif' },
-  ];
+  products: any[] = [];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private shopifyService: Shopify
+  ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.category = params.get('category') || '';
       this.title = this.mapCategoryToTitle(this.category);
 
-      // TODO: load products dynamically per category
-      // this.productService.getByCategory(this.category).subscribe(...)
+      // Fetch products from backend
+      this.shopifyService.getProducts().subscribe(data => {
+        // If you want to filter by category locally:
+        // this.products = data.filter(p => p.category === this.category);
+        this.products = data;
+      });
     });
   }
 
